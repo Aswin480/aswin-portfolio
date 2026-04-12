@@ -2550,7 +2550,7 @@
             // Fetch Data
             let contributions = [];
             try {
-                const res = await fetch('https://github-contributions-api.jogruber.de/v4/aarav-mehta-dev');
+                const res = await fetch('https://github-contributions-api.jogruber.de/v4/Aswin480');
                 const data = await res.json();
                 if (data.contributions) contributions = data.contributions.slice(-365);
             } catch (err) {
