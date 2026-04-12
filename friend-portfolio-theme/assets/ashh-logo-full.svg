@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 500" role="img" aria-label="Ashh full logo">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff3cf"/>
+      <stop offset="45%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#7d5b22"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(18,18)">
+    <circle cx="192" cy="192" r="172" fill="none" stroke="#c9a96e" stroke-width="8"/>
+    <circle cx="192" cy="192" r="152" fill="none" stroke="url(#gold)" stroke-width="4"/>
+    <path d="M64 188c84-36 172-36 256 0" fill="none" stroke="#9f7b3f" stroke-width="3" opacity="0.8"/>
+    <path d="M64 196c84 36 172 36 256 0" fill="none" stroke="#9f7b3f" stroke-width="3" opacity="0.8"/>
+    <polygon points="192,34 202,60 231,62 209,80 217,108 192,93 167,108 175,80 153,62 182,60" fill="#f0dcaf"/>
+    <polygon points="136,47 144,69 168,71 150,85 156,109 136,97 116,109 122,85 104,71 128,69" fill="#d2b273"/>
+    <polygon points="248,47 256,69 280,71 262,85 268,109 248,97 228,109 234,85 216,71 240,69" fill="#d2b273"/>
+    <text x="192" y="242" text-anchor="middle" font-family="Cinzel, serif" font-size="162" font-weight="700" fill="url(#gold)">A</text>
+    <circle cx="138" cy="284" r="6" fill="#c9a96e"/>
+    <circle cx="162" cy="292" r="6" fill="#c9a96e"/>
+    <circle cx="192" cy="297" r="6" fill="#c9a96e"/>
+    <circle cx="222" cy="292" r="6" fill="#c9a96e"/>
+    <circle cx="246" cy="284" r="6" fill="#c9a96e"/>
+  </g>
+  <text x="210" y="474" text-anchor="middle" font-family="Cinzel, serif" font-size="72" font-weight="700" letter-spacing="6" fill="url(#gold)">ASHH</text>
+</svg>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Portfolio - Classic Elegance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">Portfolio</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">Creative Designer</span>
+                <span class="title-line">&amp; Developer</span>
+            </h1>
+            <p class="hero-subtitle">Crafting elegant digital experiences with timeless sophistication</p>
+            <a href="#portfolio" class="btn btn-primary">View My Work</a>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="lead">I am a multidisciplinary designer and developer with a passion for creating sophisticated digital experiences that stand the test of time.</p>
+                    <p>With over a decade of experience in the industry, I specialize in combining modern design principles with classic elegance to create work that is both contemporary and timeless.</p>
+                    <div class="skills">
+                        <div class="skill-item">
+                            <div class="skill-name">Design</div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="95"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">Development</div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">Strategy</div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="85"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-frame"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Selected Works</h2>
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+                <button class="filter-btn" data-filter="development">Development</button>
+                <button class="filter-btn" data-filter="branding">Branding</button>
+            </div>
+
+            <div class="portfolio-grid">
+                <article class="portfolio-item" data-category="design">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">Luxury Brand Identity</h3>
+                        <p class="portfolio-category">Design / Branding</p>
+                    </div>
+                </article>
+
+                <article class="portfolio-item" data-category="development">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">E-Commerce Platform</h3>
+                        <p class="portfolio-category">Development</p>
+                    </div>
+                </article>
+
+                <article class="portfolio-item" data-category="design">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">Editorial Design</h3>
+                        <p class="portfolio-category">Design</p>
+                    </div>
+                </article>
+
+                <article class="portfolio-item" data-category="branding">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">Corporate Rebrand</h3>
+                        <p class="portfolio-category">Branding</p>
+                    </div>
+                </article>
+
+                <article class="portfolio-item" data-category="development">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">Mobile Application</h3>
+                        <p class="portfolio-category">Development</p>
+                    </div>
+                </article>
+
+                <article class="portfolio-item" data-category="design">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3 class="portfolio-title">Digital Experience</h3>
+                        <p class="portfolio-category">Design / Development</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Get In Touch</h2>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p class="contact-description">Have a project in mind? Let's create something extraordinary together.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-label">Email</div>
+                            <a href="mailto:hello@portfolio.com" class="contact-link">hello@portfolio.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-label">Phone</div>
+                            <a href="tel:+1234567890" class="contact-link">+1 (234) 567-890</a>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-label">Location</div>
+                            <span class="contact-text">New York, NY</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">Dribbble</a>
+                        <a href="#" class="social-link">Behance</a>
+                        <a href="#" class="social-link">GitHub</a>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Premium Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

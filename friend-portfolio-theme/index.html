@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Product engineer portfolio showcasing practical builds, certifications, technical writing, and interactive demos.">
+    <title>Aswin.S | AI/ML Engineer Portfolio</title>
+    <script>
+        const initTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.add(initTheme === 'light' ? 'light' : 'dark');
+    </script>
+    <link id="favicon-link" rel="icon" href="assets/ashh-logo-mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col items-center p-3 sm:p-6 lg:p-8 w-full overflow-x-hidden">
+    <div id="boot-screen" class="fixed inset-0 bg-black z-[100] overflow-hidden font-mono text-green-500 flex flex-col p-4 sm:p-8 transition-opacity duration-700 pointer-events-none">
+        <div id="boot-text" class="flex flex-col gap-1 text-xs sm:text-sm whitespace-pre-wrap break-words"></div>
+        <div id="boot-cursor" class="w-2 h-4 bg-green-500 mt-1 inline-block animate-[boot-blink_0.8s_step-start_infinite]"></div>
+    </div>
+    <script>
+        if (sessionStorage.getItem('hasBooted')) {
+            document.getElementById('boot-screen').style.display = 'none';
+        } else {
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+        }
+    </script>
+    <div id="vanta-bg" class="fixed inset-0 -z-10 w-full h-full pointer-events-none"></div>
+
+    <div id="scroll-progress"></div>
+
+    <aside id="mini-sidebar" class="mini-sidebar hidden-sidebar collapsed" aria-label="Section Sidebar">
+        <div class="mini-sidebar-kicker">Command Rail</div>
+        <button id="mini-sidebar-collapse" class="mini-sidebar-collapse" type="button" aria-label="Collapse sidebar">⟨</button>
+        <div class="mini-sidebar-logo"><img class="emblem-icon" src="assets/ashh-logo-mark.svg" alt="Ashh logo mark"></div>
+        <nav class="mini-sidebar-nav">
+            <a href="#about" class="mini-sidebar-link active-link" data-target="about" title="About"><span class="mini-sidebar-short">⌂</span><span class="mini-sidebar-label">About</span></a>
+            <a href="#works" class="mini-sidebar-link" data-target="works" title="Projects"><span class="mini-sidebar-short">✦</span><span class="mini-sidebar-label">Projects</span></a>
+            <a href="#internships" class="mini-sidebar-link" data-target="internships" title="Internships"><span class="mini-sidebar-short">⧉</span><span class="mini-sidebar-label">Internships</span></a>
+            <a href="#certificates" class="mini-sidebar-link" data-target="certificates" title="Certificates"><span class="mini-sidebar-short">▣</span><span class="mini-sidebar-label">Certs</span></a>
+            <a href="#skills" class="mini-sidebar-link" data-target="skills" title="Skills"><span class="mini-sidebar-short">◌</span><span class="mini-sidebar-label">Skills</span></a>
+            <a href="#blog" class="mini-sidebar-link" data-target="blog" title="Blog"><span class="mini-sidebar-short">✎</span><span class="mini-sidebar-label">Blog</span></a>
+            <a href="#contact" class="mini-sidebar-link" data-target="contact" title="Contact"><span class="mini-sidebar-short">✉</span><span class="mini-sidebar-label">Contact</span></a>
+            <a href="#terminal" class="mini-sidebar-link" data-target="terminal" title="Terminal"><span class="mini-sidebar-short">›</span><span class="mini-sidebar-label">Shell</span></a>
+        </nav>
+    </aside>
+    <button id="mini-sidebar-mobile-toggle" class="mini-sidebar-mobile-toggle" type="button" aria-label="Toggle section dock" aria-controls="mini-sidebar" aria-expanded="false" title="Sections">
+        <span aria-hidden="true">☰</span>
+    </button>
+
+    <header class="sticky-header relative w-full max-w-3xl rounded-full px-3 py-2 sm:px-4 sm:py-2.5 mb-3 sm:mb-5 flex items-center justify-between gap-2 sm:gap-0">
+        <div class="flex items-center gap-2 sm:gap-3">
+            <a href="#about" class="brand-link flex-shrink-0 self-start sm:self-auto relative z-20" aria-label="Go to About section">
+                <img class="emblem-logo" src="assets/ashh-logo-mark.svg" alt="Ashh logo mark">
+                <span class="brand-nickname">Ashh</span>
+            </a>
+            <div class="hidden sm:flex items-center gap-1 text-xs font-medium text-[var(--text-link)] opacity-70">
+                <span>Click logo for sidebar</span>
+                <span>←</span>
+            </div>
+        </div>
+
+        <div class="header-actions flex items-center gap-2 relative z-20">
+            <button id="terminal-shortcut" class="terminal-shortcut terminal-shortcut-icon p-1.5 sm:p-2 rounded-full text-primary transition-colors duration-300" type="button" aria-label="Open terminal" title="Terminal">
+                <span class="terminal-shortcut-dot" aria-hidden="true"></span>
+                <span class="terminal-shortcut-mark" aria-hidden="true">›_</span>
+            </button>
+            <button id="theme-toggle" class="p-1.5 sm:p-2 rounded-full text-primary hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
+                <div class="relative w-5 h-5 sm:w-6 sm:h-6">
+                    <svg id="sun-icon" class="h-5 w-5 sm:h-6 sm:w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 5a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1zM4.222 4.222a1 1 0 0 1 1.414 0l1.414 1.414a1 1 0 0 1-1.414 1.414L4.222 5.636a1 1 0 0 1 0-1.414zm15.556 0a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM12 17a5 5 0 1 0 0-10a5 5 0 0 0 0 10zm0 4a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1zM2 12a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm18 0a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM5.636 18.364a1 1 0 0 1-1.414 0l-1.414-1.414a1 1 0 1 1 1.414-1.414l1.414 1.414a1 1 0 0 1 0 1.414zm14.142 0a1 1 0 0 1-1.414-1.414l1.414-1.414a1 1 0 1 1 1.414 1.414l-1.414 1.414z"></path></svg>
+                    <svg id="moon-icon" class="h-5 w-5 sm:h-6 sm:w-6 absolute inset-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.293 13.293A8 8 0 0 1 6.707 2.707a8.001 8.001 0 1 0 10.586 10.586z"></path></svg>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full max-w-6xl">
+
+        <section id="about" class="section-container active">
+            <div class="p-6 sm:p-10 rounded-xl text-center">
+                <div id="profile-container" class="relative group h-[6.5rem] w-[6.5rem] sm:h-36 sm:w-36 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-slate-100 to-slate-300 dark:from-stone-700 dark:to-amber-900 rounded-full flex items-center justify-center overflow-hidden ring-4 ring-black/10 dark:ring-white/10">
+                    <svg id="profile-svg" class="h-[3.5rem] w-[3.5rem] sm:h-20 sm:w-20 text-[var(--text-link)] dark:text-[var(--text-link)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                    <img id="profile-img" src="" alt="Profile Image" class="hidden w-full h-full object-contain p-2 bg-black/35 relative z-10">
+                    <div id="admin-profile-overlay" class="hidden absolute inset-0 bg-black/60 z-20 flex-col justify-center items-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300" onclick="document.getElementById('profile-upload').click()">
+                        <span class="text-white text-xs font-bold pointer-events-none">Edit Image</span>
+                        <input type="file" id="profile-upload" accept="image/*" class="hidden" onchange="window.saveProfileImage(event)">
+                    </div>
+                </div>
+                <h2 class="text-4xl sm:text-6xl font-extrabold mb-2"><span class="hero-name min-h-[3.5rem] inline-block animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded text-transparent w-64">&nbsp;</span></h2>
+                <p class="hero-tagline text-lg mb-6 font-semibold text-primary"><span class="inline-block min-h-[1.5rem] animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded text-transparent w-48">&nbsp;</span></p>
+                <div class="mb-4">
+                    <p class="about-summary leading-relaxed max-w-4xl mx-auto text-left sm:text-center text-base sm:text-lg min-h-[5rem] animate-pulse bg-slate-200/50 dark:bg-slate-700/50 rounded">&nbsp;</p>
+                </div>
+                <div id="terminal-launchpad" class="terminal-launchpad max-w-3xl mx-auto mt-5 mb-4 px-5 py-4 rounded-xl text-center cursor-pointer" role="button" tabindex="0" aria-label="Open terminal chat">
+                    Click here to chat in Terminal
+                </div>
+                <div class="mt-4 mb-2 text-center">
+                    <strong class="text-primary text-sm sm:text-base">You can find me across the web. Try typing <code class="text-[var(--text-link)] dark:text-[var(--text-link)] font-mono p-1 rounded bg-black/5 dark:bg-white/5">socials</code> into the terminal!</strong>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aswinsajeevorg@gmail.com" target="_blank" rel="noopener noreferrer" class="magnetic-btn w-full sm:w-auto text-center px-8 py-3 bg-[var(--text-link)] text-[var(--bg-body-start)] font-bold rounded-lg shadow-lg hover:opacity-90 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">Get in Touch</a>
+                    <a href="resume.pdf" target="_blank" class="magnetic-btn w-full sm:w-auto text-center px-8 py-3 border-2 border-[var(--text-link)] text-[var(--text-link)] backdrop-blur-md bg-white/10 dark:bg-black/10 font-bold rounded-lg shadow-lg hover:opacity-90 hover:-translate-y-1 transition-all duration-300 pointer-events-auto">Download Resume</a>
+                </div>
+
+                <div class="mt-10 flex flex-wrap justify-center gap-5 sm:gap-8">
+                    <a href="https://github.com/Aswin480" target="_blank" rel="noopener noreferrer" title="GitHub" class="social-icon">
+                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/aswin-s-22450b297?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="social-icon">
+                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10 mb-8">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-3 text-center">Skill Laundry</h2>
+
+                <div class="skills-laundry-scene themed-card rounded-2xl overflow-hidden shadow-2xl relative w-full">
+                    <div class="overlay" aria-hidden="true"></div>
+                    <div class="scene-sun-glow" aria-hidden="true"></div>
+                    <div class="scene-post post-left" aria-hidden="true"></div>
+                    <div class="scene-post post-right" aria-hidden="true"></div>
+                    <div class="scene-lantern" aria-hidden="true"></div>
+
+                    <div class="clothesline line-1 line" data-depth="0.2" aria-label="Programming Languages">
+                        <svg class="rope" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+                            <path d="M0,50 Q500,80 1000,50"></path>
+                        </svg>
+                        <button class="laundry-cloth cloth-tee" data-skill="Python">Python</button>
+                        <button class="laundry-cloth cloth-tee" data-skill="C">C</button>
+                        <button class="laundry-cloth cloth-tee" data-skill="C++">C++</button>
+                        <button class="laundry-cloth cloth-tee" data-skill="TypeScript">TypeScript</button>
+                    </div>
+
+                    <div class="clothesline line-2 line" data-depth="0.4" aria-label="Frameworks and Libraries">
+                        <svg class="rope" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+                            <path d="M0,50 Q500,90 1000,50"></path>
+                        </svg>
+                        <button class="laundry-cloth cloth-shirt" data-skill="React">React</button>
+                        <button class="laundry-cloth cloth-shirt" data-skill="Node.js">Node.js</button>
+                        <button class="laundry-cloth cloth-shirt" data-skill="Streamlit">Streamlit</button>
+                        <button class="laundry-cloth cloth-shirt" data-skill="Flask">Flask</button>
+                        <button class="laundry-cloth cloth-jacket" data-skill="System Design">System Design</button>
+                    </div>
+
+                    <div class="clothesline line-3 line" data-depth="0.6" aria-label="Tools and Workflow">
+                        <svg class="rope" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+                            <path d="M0,50 Q500,100 1000,50"></path>
+                        </svg>
+                        <button class="laundry-cloth cloth-dhoti" data-skill="Git">Git</button>
+                        <button class="laundry-cloth cloth-dhoti" data-skill="GitHub">GitHub</button>
+                        <button class="laundry-cloth cloth-dhoti" data-skill="Docker">Docker</button>
+                        <button class="laundry-cloth cloth-dhoti" data-skill="VS Code">VS Code</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section id="works" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Crowned Projects</h2>
+                <div id="works-grid" class="mb-16"></div>
+                
+                <h3 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Chronicle of Commits</h3>
+                <div class="themed-card rounded-xl p-4 sm:p-6 overflow-hidden reveal">
+                    <div class="overflow-x-auto no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none;">
+                        <img id="github-chart" src="https://ghchart.rshah.org/c9a96e/aswin480" alt="Aswin.S GitHub chart" class="min-w-[560px] sm:min-w-[700px] w-full h-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="internships" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Internship Chronicle</h2>
+                <div id="internships-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"></div>
+            </div>
+        </section>
+
+        <section id="certificates" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10"><h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Royal Seals</h2><div id="certificates-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div></div>
+
+            </section>
+
+        <section id="blog" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Empire Dispatches</h2>
+                <div id="blog-posts-container" class="max-w-3xl mx-auto">
+                    </div>
+            </div>
+        </section>
+
+        <section id="terminal" class="section-container">
+            <div class="terminal-shell p-4 sm:p-6 lg:p-10">
+                <div class="terminal-window mx-auto max-w-4xl rounded-xl overflow-hidden shadow-2xl dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-300 dark:border-gray-700/50 flex flex-col font-mono text-xs sm:text-sm md:text-base bg-[#f5f5f5] dark:bg-[#0a0a0a] text-slate-800 dark:text-green-400 relative transition-colors duration-300 h-[70svh] min-h-[320px] sm:h-[500px]">
+                    <div class="terminal-titlebar bg-[#e4e4e4] dark:bg-[#1e1e1e] p-3 flex items-center justify-between border-b border-gray-300 dark:border-black select-none transition-colors duration-300">
+                        <div class="flex space-x-2">
+                            <div class="w-3.5 h-3.5 rounded-full bg-red-400 dark:bg-red-500 hover:bg-red-500 dark:hover:bg-red-600 transition-colors shadow-inner"></div>
+                            <div class="w-3.5 h-3.5 rounded-full bg-yellow-400 dark:bg-yellow-500 hover:bg-yellow-500 dark:hover:bg-yellow-600 transition-colors shadow-inner"></div>
+                            <div class="w-3.5 h-3.5 rounded-full bg-green-400 dark:bg-green-500 hover:bg-green-500 dark:hover:bg-green-600 transition-colors shadow-inner"></div>
+                        </div>
+                        <p class="terminal-title text-xs text-slate-500 dark:text-gray-400 absolute left-1/2 -translate-x-1/2 font-semibold tracking-wider font-sans transition-colors duration-300 hidden sm:block">ashh-portfolio -- royal-shell</p>
+                        <p class="terminal-mobile-chip hidden text-[10px] uppercase tracking-[0.18em] font-bold">interactive shell</p>
+                    </div>
+                    <div id="terminal-body" class="p-3 sm:p-6 flex-grow overflow-y-auto cursor-text no-scrollbar selection:bg-slate-300 dark:selection:bg-green-700 selection:text-black dark:selection:text-white" onclick="document.getElementById('terminal-input').focus()">
+                        <div id="terminal-output" class="leading-relaxed whitespace-pre-wrap break-words"></div>
+                        <div id="terminal-input-line" class="flex flex-wrap mt-1 sm:mt-2">
+                            <span class="text-blue-600 dark:text-blue-400 mr-2 font-bold whitespace-nowrap transition-colors duration-300 block" id="terminal-prompt">courtier<span class="hidden sm:inline">@empire</span>:~$</span>
+                            <div class="flex-grow flex items-center relative min-w-[150px]">
+                                <input type="text" id="terminal-input" class="w-full bg-transparent border-none outline-none text-slate-800 dark:text-green-400 caret-slate-800 dark:caret-green-400 font-mono focus:ring-0 p-0 m-0 leading-none h-full transition-colors duration-300" autocomplete="off" spellcheck="false" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section-container">
+            <div class="p-4 sm:p-6 lg:p-10">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Audience Chamber</h2>
+                <form id="contact-form" action="mailto:aswinsajeevorg@gmail.com" method="POST" enctype="text/plain" class="max-w-2xl mx-auto space-y-4">
+                    <div><label for="name" class="block text-lg font-semibold mb-2 text-primary">Name</label><input type="text" id="name" name="name" placeholder="John Doe" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--text-link)] transition-all duration-200"></div>
+                    <div><label for="email" class="block text-lg font-semibold mb-2 text-primary">Email Address</label><input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--text-link)] transition-all duration-200"></div>
+                    <div><label for="message" class="block text-lg font-semibold mb-2 text-primary">Message</label><textarea id="message" name="message" rows="5" placeholder="Your message here..." required class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700/50 text-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--text-link)] transition-all duration-200"></textarea></div>
+                    <button type="submit" class="w-full px-6 py-4 bg-[var(--text-link)] dark:bg-[var(--text-link)] text-[var(--bg-body-start)] dark:text-[var(--bg-body-end)] font-bold rounded-lg shadow-md hover:opacity-90 dark:hover:opacity-90 hover:-translate-y-0.5 transform transition-all duration-200">Send Message</button>
+                    <div id="form-status" class="pt-2 text-center font-semibold"></div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-credit w-full max-w-6xl px-4 pb-6 sm:pb-8 text-center">
+        <div class="flex items-center justify-center gap-3 mb-2">
+            <img class="emblem-footer" src="assets/ashh-logo-full.svg" alt="Ashh full logo">
+        </div>
+        <div class="footer-pager" aria-label="Section pagination">
+            <button id="footer-prev" type="button" class="footer-pager-btn" aria-label="Go to previous section">Previous</button>
+            <p id="footer-pager-label" class="footer-pager-label">Previous: About | Next: Projects</p>
+            <button id="footer-next" type="button" class="footer-pager-btn" aria-label="Go to next section">Next</button>
+        </div>
+    </footer>
+
+    <div id="node-editor-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm" onclick="this.style.display='none'">
+        <div class="relative p-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl max-w-sm w-full max-h-[85svh] overflow-y-auto shadow-2xl flex flex-col gap-4 text-primary mx-4" onclick="event.stopPropagation()">
+            <h3 class="text-2xl font-bold mb-2">Edit Node</h3>
+            <input type="hidden" id="ne-orig-id">
+            
+            <label class="text-sm font-semibold">Node Name (ID)</label>
+            <input type="text" id="ne-id" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+            
+            <label class="text-sm font-semibold">Icon (SimpleIcons slug)</label>
+            <input type="text" id="ne-icon" placeholder="e.g. javascript" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+            
+            <label class="text-sm font-semibold">Message on Click (Optional)</label>
+            <input type="text" id="ne-click" placeholder="Text to show on click" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+            
+            <label class="text-sm font-semibold">Radius / Size</label>
+            <input type="number" id="ne-radius" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+            
+            <div class="flex gap-2 mt-4">
+                <button class="flex-1 bg-[var(--text-link)] text-white py-2 rounded font-bold hover:opacity-90" onclick="window.saveNode()">Save Node</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded font-bold hover:bg-red-700" onclick="window.deleteNode()">Delete</button>
+            </div>
+            
+            <hr class="border-gray-300 dark:border-gray-600 my-2">
+            <h4 class="font-bold">Add Child Node</h4>
+            <div class="flex gap-2 mt-1">
+                <input type="text" id="ne-new-child" placeholder="New Child ID" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600">
+                <button class="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700" onclick="window.addChildNode()">Add</button>
+            </div>
+            <button onclick="document.getElementById('node-editor-modal').style.display='none'" class="absolute -top-3 -right-3 bg-red-600 text-white w-8 h-8 rounded-full font-bold shadow hover:bg-red-700 border-2 border-white dark:border-gray-800">X</button>
+        </div>
+    </div>
+
+    <!-- Main Save Constellation Button for Admin Mode -->
+    <div id="admin-constellation-controls" class="hidden fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-50 flex-col gap-2">
+        <button onclick="window.saveConstellationToDB()" class="px-4 py-3 bg-[var(--text-link)] text-white font-bold rounded-lg shadow-xl border border-white/20 hover:scale-105 transition-all">Save Constellation</button>
+        <button onclick="initD3Graph()" class="px-4 py-2 bg-gray-600 text-white font-bold rounded-lg shadow-xl border border-white/20 hover:scale-105 transition-all">Reload Graph</button>
+    </div>
+
+    <div id="image-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm" onclick="this.style.display='none'">
+        <div class="relative p-4 bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto mx-4" onclick="event.stopPropagation()">
+
+            <button
+                onclick="document.getElementById('image-modal').style.display='none'"
+                class="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/50 dark:bg-black/50 rounded-full p-1 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-all z-10"
+                aria-label="Close modal"
+            >
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <img id="modal-image" class="rounded-lg shadow-2xl w-full h-auto" src="" alt="Certificate" />
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
