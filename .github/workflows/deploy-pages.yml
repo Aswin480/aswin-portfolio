@@ -32,7 +32,7 @@ jobs:
       - name: Upload portfolio artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: portfolio
+          path: friend-portfolio-theme
 
       - name: Deploy to GitHub Pages
         id: deployment
