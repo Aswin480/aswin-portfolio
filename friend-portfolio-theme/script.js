@@ -2001,15 +2001,38 @@
                 const message = (rawMessage || '').toString().trim();
                 const lower = message.toLowerCase();
 
-                const flaggedPattern = /\b(hate|abuse|abusive|insult|insulting|harass|harassment|threat|threaten|scam|fraud|idiot|stupid|nonsense|trash|worst)\b/i;
-                const hasFlaggedTerms = flaggedPattern.test(lower);
+                // Comprehensive abusive/harmful keyword detection
+                const harmfulKeywords = [
+                    'hate', 'abusive', 'abuse', 'insult', 'insulting', 'harass', 'harassment',
+                    'threat', 'threaten', 'scam', 'fraud', 'idiot', 'stupid', 'nonsense', 'trash',
+                    'worst', 'useless', 'garbage', 'pathetic', 'loser', 'fake', 'phony', 'liar',
+                    'bastard', 'asshole', 'bitch', 'damn', 'hell', 'crap', 'sucks', 'suck',
+                    'dumb', 'moron', 'imbecile', 'retard', 'worthless', 'disgusting', 'filth',
+                    'poison', 'kill', 'death', 'die', 'suicide', 'racist', 'sexist', 'homophobic',
+                    'slut', 'whore', 'rape', 'rape', 'molest', 'pedo', 'sick', 'twisted',
+                    'pervert', 'creep', 'scumbag', 'lowlife', 'rotten', 'vile', 'despicable'
+                ];
+                
+                const hasFlaggedTerms = harmfulKeywords.some(keyword => 
+                    lower.includes(keyword)
+                );
 
+                // Check for excessive caps (more lenient: 8+ letters, 50%+ uppercase)
                 const upperChars = (message.match(/[A-Z]/g) || []).length;
                 const alphaChars = (message.match(/[A-Za-z]/g) || []).length;
-                const excessiveCaps = alphaChars >= 16 && upperChars / alphaChars > 0.7;
-                const aggressivePunctuation = /[!?]{4,}/.test(message);
+                const excessiveCaps = alphaChars >= 8 && upperChars / alphaChars > 0.5;
 
-                return hasFlaggedTerms || excessiveCaps || aggressivePunctuation;
+                // Check for aggressive punctuation (2+ consecutive or excessive throughout)
+                const aggressivePunctuation = /[!?]{2,}/.test(message) || 
+                                             (message.match(/[!?]/g) || []).length >= 3;
+
+                // Check for character repetition (helloooo, nooooo, etc)
+                const charRepetition = /(.)\1{3,}/.test(message);
+
+                // Check for all caps messages
+                const allCaps = message.length > 5 && /^[A-Z\s!?.,]+$/.test(message);
+
+                return hasFlaggedTerms || excessiveCaps || aggressivePunctuation || charRepetition || allCaps;
             };
 
             form.addEventListener('submit', async (event) => {
