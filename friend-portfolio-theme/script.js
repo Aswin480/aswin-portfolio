@@ -980,6 +980,18 @@
                     }
                     const emailLink = document.querySelector('a[href^="mailto:"]');
                     if (emailLink) emailLink.href = `mailto:${resolvedConfig.contact_email}`;
+                    const contactForm = document.getElementById('contact-form');
+                    if (contactForm) {
+                        const primaryInbox = encodeURIComponent(resolvedConfig.contact_email || profile.emailPrimary);
+                        const moderationInbox = encodeURIComponent('aachu2776@gmail.com');
+                        const primaryEndpoint = `https://formsubmit.co/ajax/${primaryInbox}`;
+                        const moderationEndpoint = `https://formsubmit.co/ajax/${moderationInbox}`;
+
+                        contactForm.dataset.primaryEndpoint = primaryEndpoint;
+                        contactForm.dataset.moderationEndpoint = moderationEndpoint;
+                        contactForm.action = primaryEndpoint;
+                        contactForm.method = 'POST';
+                    }
                     const githubLink = document.querySelector('a[title="GitHub"]');
                     if (githubLink) githubLink.href = profile.github;
                     const linkedInLink = document.querySelector('a[title="LinkedIn"]');
@@ -1984,29 +1996,71 @@
 
         const form = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            formStatus.textContent = 'Sending...';
-            formStatus.className = 'pt-2 text-center font-semibold text-primary';
-            const data = new FormData(event.target);
-            try {
-                const response = await fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
-                if (response.ok) {
-                    formStatus.textContent = 'Message sent successfully!';
-                    formStatus.style.color = 'var(--text-accent)'; /* Changed success color */
-                    form.reset();
-                } else {
-                    const errorData = await response.json();
-                    formStatus.textContent = errorData.errors?.map(e => e.message).join(", ") || 'Oops! There was a problem.';
-                    formStatus.style.color = '#c94c4c'; /* Changed error color */
+        if (form && formStatus) {
+            const shouldRouteToModeration = (rawMessage) => {
+                const message = (rawMessage || '').toString().trim();
+                const lower = message.toLowerCase();
+
+                const flaggedPattern = /\b(hate|abuse|abusive|insult|insulting|harass|harassment|threat|threaten|scam|fraud|idiot|stupid|nonsense|trash|worst)\b/i;
+                const hasFlaggedTerms = flaggedPattern.test(lower);
+
+                const upperChars = (message.match(/[A-Z]/g) || []).length;
+                const alphaChars = (message.match(/[A-Za-z]/g) || []).length;
+                const excessiveCaps = alphaChars >= 16 && upperChars / alphaChars > 0.7;
+                const aggressivePunctuation = /[!?]{4,}/.test(message);
+
+                return hasFlaggedTerms || excessiveCaps || aggressivePunctuation;
+            };
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                formStatus.textContent = 'Sending...';
+                formStatus.className = 'pt-2 text-center font-semibold text-primary';
+
+                const targetForm = event.target;
+                const data = new FormData(targetForm);
+                const senderName = (data.get('name') || '').toString().trim();
+                const messageText = (data.get('message') || '').toString();
+                const primaryEndpoint = targetForm.dataset.primaryEndpoint || (targetForm.action || '').trim();
+                const moderationEndpoint = targetForm.dataset.moderationEndpoint || `https://formsubmit.co/ajax/${encodeURIComponent('aachu2776@gmail.com')}`;
+                const routeToModeration = shouldRouteToModeration(messageText);
+                const destinationEndpoint = routeToModeration ? moderationEndpoint : primaryEndpoint;
+
+                data.append('_subject', `${routeToModeration ? '[Flagged]' : '[General]'} Audience Chamber message from ${senderName || 'Visitor'}`);
+                data.append('_template', 'table');
+                data.append('_captcha', 'false');
+
+                try {
+                    const response = await fetch(destinationEndpoint, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    let payload = {};
+                    try {
+                        payload = await response.json();
+                    } catch (parseError) {
+                        console.warn('Could not parse form response:', parseError);
+                    }
+
+                    if (response.ok && payload.success !== false) {
+                        formStatus.textContent = 'Message sent successfully.';
+                        formStatus.style.color = 'var(--text-accent)';
+                        targetForm.reset();
+                    } else {
+                        formStatus.textContent = payload.message || 'Message could not be sent. Please try again.';
+                        formStatus.style.color = '#c94c4c';
+                    }
+                } catch (error) {
+                    formStatus.textContent = 'Network error. Please try again in a moment.';
+                    formStatus.style.color = '#c94c4c';
+                    console.error('Form submission error:', error);
                 }
-            } catch (error) {
-                formStatus.textContent = 'Oops! A network error occurred.';
-                formStatus.style.color = '#c94c4c'; /* Changed error color */
-                console.error('Form submission error:', error);
-            }
-            setTimeout(() => { formStatus.textContent = ''; formStatus.style.color = ''; }, 5000);
-        });
+
+                setTimeout(() => { formStatus.textContent = ''; formStatus.style.color = ''; }, 6000);
+            });
+        }
 
         // +++ START: MAGNETIC BUTTONS +++
         const magneticBtns = document.querySelectorAll('.magnetic-btn');
