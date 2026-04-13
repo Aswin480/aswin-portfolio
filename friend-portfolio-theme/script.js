@@ -2005,7 +2005,7 @@
                 const harmfulKeywords = [
                     // Severe profanities & curse words
                     'fuck', 'fucking', 'fucked', 'fucker', 'motherfucker', 'mf', 'bullshit', 'shit', 'ass', 'asshole',
-                    'bitch', 'bitching', 'cunt', 'cock', 'dick', 'pussy', 'piss', 'damn', 'dammit', 'hell', 'crap',
+                    'bitch', 'bitching', 'cunt', 'cock', 'dick', 'pussy', 'piss', 'hell', 'crap',
                     
                     // Hate & harassment
                     'hate', 'abusive', 'abuse', 'insult', 'insulting', 'harass', 'harassment',
@@ -2071,6 +2071,15 @@
                 const moderationEndpoint = targetForm.dataset.moderationEndpoint || `https://formsubmit.co/ajax/${encodeURIComponent('aachu2776@gmail.com')}`;
                 const routeToModeration = shouldRouteToModeration(messageText);
                 const destinationEndpoint = routeToModeration ? moderationEndpoint : primaryEndpoint;
+
+                // DEBUG: Log routing decision
+                console.log('=== CONTACT FORM DEBUG ===');
+                console.log('Message:', messageText);
+                console.log('Route to moderation:', routeToModeration);
+                console.log('Primary endpoint:', primaryEndpoint);
+                console.log('Moderation endpoint:', moderationEndpoint);
+                console.log('Destination:', destinationEndpoint);
+                console.log('========================');
 
                 data.append('_subject', `${routeToModeration ? '[Flagged]' : '[General]'} Audience Chamber message from ${senderName || 'Visitor'}`);
                 data.append('_template', 'table');
