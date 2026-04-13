@@ -2003,14 +2003,37 @@
 
                 // Comprehensive abusive/harmful keyword detection
                 const harmfulKeywords = [
+                    // Severe profanities & curse words
+                    'fuck', 'fucking', 'fucked', 'fucker', 'motherfucker', 'mf', 'bullshit', 'shit', 'ass', 'asshole',
+                    'bitch', 'bitching', 'cunt', 'cock', 'dick', 'pussy', 'piss', 'damn', 'dammit', 'hell', 'crap',
+                    
+                    // Hate & harassment
                     'hate', 'abusive', 'abuse', 'insult', 'insulting', 'harass', 'harassment',
-                    'threat', 'threaten', 'scam', 'fraud', 'idiot', 'stupid', 'nonsense', 'trash',
-                    'worst', 'useless', 'garbage', 'pathetic', 'loser', 'fake', 'phony', 'liar',
-                    'bastard', 'asshole', 'bitch', 'damn', 'hell', 'crap', 'sucks', 'suck',
-                    'dumb', 'moron', 'imbecile', 'retard', 'worthless', 'disgusting', 'filth',
-                    'poison', 'kill', 'death', 'die', 'suicide', 'racist', 'sexist', 'homophobic',
-                    'slut', 'whore', 'rape', 'rape', 'molest', 'pedo', 'sick', 'twisted',
-                    'pervert', 'creep', 'scumbag', 'lowlife', 'rotten', 'vile', 'despicable'
+                    'threat', 'threaten', 'threatening', 'scam', 'fraud', 'scammer', 'liar',
+                    
+                    // Severe insults
+                    'idiot', 'stupid', 'dumb', 'moron', 'imbecile', 'retard', 'retarded',
+                    'pathetic', 'loser', 'trash', 'garbage', 'useless', 'worthless', 'disgusting',
+                    'filth', 'vile', 'despicable', 'scumbag', 'bastard', 'lowlife', 'rotten',
+                    'fake', 'phony', 'nonsense', 'worst',
+                    
+                    // Violence & harm
+                    'kill', 'killing', 'death', 'die', 'dying', 'suicide', 'murder', 'stab', 'punch',
+                    'hurt', 'harm', 'destroy', 'violence', 'violent',
+                    
+                    // Sexual & inappropriate
+                    'rape', 'molest', 'pedo', 'pedophile', 'sexual', 'sex', 'porn', 'xxx',
+                    'slut', 'whore', 'prostitute', 'horny',
+                    
+                    // Discrimination
+                    'racist', 'racism', 'sexist', 'sexism', 'homophobic', 'transphobic',
+                    'nigger', 'faggot', 'tranny', 'retard', 'disabled', 'handicap',
+                    
+                    // Perverted/twisted
+                    'pervert', 'creep', 'sick', 'twisted', 'weirdo', 'freak',
+                    
+                    // Other negative
+                    'sucks', 'suck', 'poison', 'toxic', 'cancer'
                 ];
                 
                 const hasFlaggedTerms = harmfulKeywords.some(keyword => 
