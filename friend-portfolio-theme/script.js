@@ -982,10 +982,10 @@
                     if (emailLink) emailLink.href = `mailto:${resolvedConfig.contact_email}`;
                     const contactForm = document.getElementById('contact-form');
                     if (contactForm) {
-                        const primaryInbox = encodeURIComponent(resolvedConfig.contact_email || profile.emailPrimary);
-                        const moderationInbox = encodeURIComponent('aachu2776@gmail.com');
-                        const primaryEndpoint = `https://formsubmit.co/ajax/${primaryInbox}`;
-                        const moderationEndpoint = `https://formsubmit.co/ajax/${moderationInbox}`;
+                        const primaryEmail = resolvedConfig.contact_email || profile.emailPrimary;
+                        const moderationEmail = 'aachu2776@gmail.com';
+                        const primaryEndpoint = `https://formsubmit.co/ajax/${primaryEmail}`;
+                        const moderationEndpoint = `https://formsubmit.co/ajax/${moderationEmail}`;
 
                         contactForm.dataset.primaryEndpoint = primaryEndpoint;
                         contactForm.dataset.moderationEndpoint = moderationEndpoint;
@@ -2076,7 +2076,7 @@
                 const senderName = (data.get('name') || '').toString().trim();
                 const messageText = (data.get('message') || '').toString();
                 const primaryEndpoint = targetForm.dataset.primaryEndpoint || (targetForm.action || '').trim();
-                const moderationEndpoint = targetForm.dataset.moderationEndpoint || `https://formsubmit.co/ajax/${encodeURIComponent('aachu2776@gmail.com')}`;
+                const moderationEndpoint = targetForm.dataset.moderationEndpoint || `https://formsubmit.co/ajax/aachu2776@gmail.com`;
                 const routeToModeration = shouldRouteToModeration(messageText);
                 const destinationEndpoint = routeToModeration ? moderationEndpoint : primaryEndpoint;
 
