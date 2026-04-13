@@ -1997,6 +1997,14 @@
         const form = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
         if (form && formStatus) {
+            // DEBUG: Check endpoints are set
+            console.log('Form loaded. Checking endpoints...');
+            setTimeout(() => {
+                console.log('Contact Form - Primary Endpoint:', form.dataset.primaryEndpoint);
+                console.log('Contact Form - Moderation Endpoint:', form.dataset.moderationEndpoint);
+                console.log('Contact Form - Action:', form.action);
+            }, 500);
+
             const shouldRouteToModeration = (rawMessage) => {
                 const message = (rawMessage || '').toString().trim();
                 const lower = message.toLowerCase();
