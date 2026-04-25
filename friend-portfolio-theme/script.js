@@ -1553,6 +1553,7 @@
         };
         const baseTerminalCommands = ['help', 'about', 'socials', 'resume', 'projects', 'blog', 'skills', 'contact', 'theme', 'repo', 'donut', 'matrix', 'whoami', 'echo', 'clear', 'exit', 'logout', 'su', 'sudo'];
         const adminTerminalCommands = ['glitch', 'hack_target', 'addcmd', 'delcmd'];
+        const builtInTerminalCommands = new Set([...baseTerminalCommands, ...adminTerminalCommands]);
         const getTerminalCommands = () => {
             const dynamicCommands = window.dynamicCommandsCache ? Object.keys(window.dynamicCommandsCache) : [];
             const adminCommands = isAdminMode ? adminTerminalCommands : [];
@@ -1680,7 +1681,7 @@
                 return;
             }
 
-            if (window.dynamicCommandsCache && window.dynamicCommandsCache[command] && command !== 'exit' && command !== 'su') {
+            if (window.dynamicCommandsCache && window.dynamicCommandsCache[command] && !builtInTerminalCommands.has(command)) {
                 printToTerminal(window.dynamicCommandsCache[command]);
                 return;
             }
