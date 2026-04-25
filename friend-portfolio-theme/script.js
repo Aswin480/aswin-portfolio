@@ -1739,7 +1739,7 @@
                 case 'resume':
                     printToTerminal("Opening resume in a new tab...");
                     {
-                        const resumeUrl = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}resume.pdf#view=FitH`;
+                        const resumeUrl = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}resume-20260425.pdf#view=FitH`;
                         const resumeTab = window.open(resumeUrl, '_blank', 'noopener,noreferrer');
                         if (!resumeTab) {
                             printToTerminal("Popup blocked. Please allow popups and try 'resume' again.", 'terminal-output-error');
